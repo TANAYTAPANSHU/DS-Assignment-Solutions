@@ -1,0 +1,63 @@
+process.stdin.resume();
+process.stdin.setEncoding('utf8');
+
+let inputString = "";
+let currentLine = 0;
+
+process.stdin.on("data", (inputStdin) => {
+  inputString += inputStdin;
+});
+
+process.stdin.on("end", (_) => {
+  inputString = inputString
+    .trim()
+    .split("\n")
+    .map((string) => {
+      return string.trim();
+    });
+
+  main();
+});
+
+function readLine() {
+  return inputString[currentLine++];
+}
+
+/////////////
+function main() {
+let n, k, x, y;
+
+let input_arr1 = readLine()
+  .split(" ")
+  .map((x) => parseInt(x));
+n = input_arr1[0];
+k = input_arr1[1];
+x = input_arr1[2];
+y = input_arr1[3];
+
+var m = new Uint32Array(1001).fill(0);
+var co = 0;
+
+let input_arr2 = readLine()
+  .split(" ")
+  .map((x) => parseInt(x));
+
+for (var i = 0; i < n; i++) {
+  var temp = input_arr2[i];
+  m[temp]++;
+}
+
+for (var i = 1; i < 1001; i++) {
+  if (m[i] == 0) continue;
+  for (var j = i; j < 1001; j++) {
+    if ((i + j) % k == x && (i * j) % k == y) {
+      if (i == j) co += (m[i] * (m[i] - 1)) / 2;
+      else co += m[i] * m[j];
+    }
+  }
+}
+console.log(co);
+}
+
+
+
